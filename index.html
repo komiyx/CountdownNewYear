@@ -1,0 +1,131 @@
+<html>
+    <head>
+        <title>Countdown</title>
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/jquery-ui.min.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Edu+SA+Beginner:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">    
+    </head>
+    <section class="countdown">
+        <div class="divs col-12 row justify-content-center align-items-start align-items-lg-center m-0 py-5">
+            <div class="col-12 col-lg-6 left">
+                <img src="img/newyear2024.jpg" alt="newyear">
+            </div>
+            <div class="col-12 col-lg-6 right text-center">
+                <h1 class="">2024 New Year Countdown</h1>
+                <p>As the countdown to the New Year approaches, 
+                    we stand at the cusp of change and possibility. 
+                    With hearts filled with hope and minds brimming with reflection, 
+                    we bid farewell to the year gone by and embrace the promise of 2024. 
+                    In this moment of unity and celebration, we look forward to a fresh start and a year that holds the potential for growth, resilience, and brighter tomorrows."
+                </p>
+                <div class="col-12 row m-0 p-0 py-5">
+                    <div class="col-md-3 col-xs-6">
+                        <div class="clock">
+                            <div class="well top-pane">
+                                <div id="days" class="num">00</div>
+                            </div>
+                            <div class="well bottom-pane">
+                            <div id="days-text" class="text p-3">Days</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xs-6">
+                        <div class="clock">
+                          <div class="well top-pane">
+                            <div id="hours" class="num">00</div>
+                          </div>
+                          <div class="well bottom-pane">
+                            <div id="hours-text" class="text p-3">Hours</div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xs-6">
+                        <div class="clock">
+                            <div class="well top-pane">
+                            <div id="mins" class="num">00</div>
+                            </div>
+                            <div class="well bottom-pane">
+                            <div id="mins-text" class="text p-3">Minutes</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xs-6">
+                        <div class="clock">
+                          <div class="well top-pane">
+                            <div id="secs" class="num">00</div>
+                          </div>
+                          <div class="well bottom-pane">
+                            <div id="secs-text" class="text p-3">Seconds</div>
+                          </div>
+                        </div>
+                    </div>
+                    <div id="info" class="small"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</html>
+<script>
+    function timeLeft(endtime)
+    {
+        var t = Date.parse(endtime)- Date.parse(new Date());
+        var seconds = Math.floor( (t/1000) % 60 );
+        var minutes = Math.floor( (t/1000/60) % 60 );
+        var hours = Math.floor( (t/(1000*60*60)) % 24 );
+        var days = Math.floor( t/(1000*60*60*24) );
+        return {
+            'total': t,
+            'days': days,
+            'hours': hours,
+            'minutes': minutes,
+            'seconds': seconds
+        };
+    }
+
+        
+    $(document).ready(function()
+    {
+        var today = new Date();
+        // console.log(today);
+        var settime = 'January 1 ' + (today.getFullYear() + 1) + " 00:00:00";
+        // console.log(settime);
+
+        if(today.getMonth() == 0 && today.getDate() == 1)
+        {
+            settime =  'January 1 ' + (today.getFullYear() + 1) + " 00:00:00";
+        }
+
+        var setClock = function(newyear)
+        {
+            var timeinterval = setInterval(function()
+            {
+                var t = timeLeft(newyear);
+                $('#days').text(t.days);
+                $('#hours').text(t.hours);
+                $('#mins').text(('0' + t.minutes).slice(-2));
+                $('#secs').text(('0' + t.seconds).slice(-2));
+
+                if(t.total <= 0 )
+                {
+                    clearInterval(timeinterval);
+                    var now = new Date();
+                    var yearStr = now.getFullYear().toString();
+                    $('#days').text(yearStr[0]);
+                    $('#days-text').text("Happy");
+                    $('#hours').text(yearStr[1]);
+                    $('#hours-text').text("New");
+                    $('#mins').text(yearStr[2]);
+                    $('#mins-text').text("Year");
+                    $('#secs').text(yearStr[3]);
+                    $('#secs-text').text("!!!");
+                }
+            },1000);
+        }
+        setClock(settime);
+    });
+    
+</script>
